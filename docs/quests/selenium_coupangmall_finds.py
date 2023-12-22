@@ -13,7 +13,7 @@ browser = webdriver.Chrome(service=ChromeService(webdriver_manager_directory))
 capabilities = browser.capabilities
 
 # - 주소 입력
-browser.get("https://www.coupang.com/np/categories/393760")
+browser.get("https://www.coupang.com/np/categories/420186?channel=plp_C2")
 
 # - 가능 여부에 대한 OK 받음
 pass
