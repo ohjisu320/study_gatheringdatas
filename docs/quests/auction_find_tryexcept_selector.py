@@ -35,9 +35,9 @@ for element_item in element_bundle :
     except :
         old_price = ""
         element_new_price = element_item.find_element(by=By.CSS_SELECTOR, value="ul > li.d_price > span.sale > span")
-        new_price = element_new_price.text
+        new_price = element_new_price.text # 현재가격
         element_delivery = element_item.find_element(by=By.CSS_SELECTOR, value="div.icon > div")
-        delivery = element_delivery.text
+        delivery = element_delivery.text.split() # 배송방법   
         pass
     finally :
         pass
