@@ -1,0 +1,7 @@
+url : https://www.jobplanet.co.kr/users/sign_in?_nav=gb
+
+id : #user_email
+
+password : #user_password
+
+loginbutton : #signInSignInCon > div.signInsignIn_wrap > div > section.section_email.er_r > fieldset > button
