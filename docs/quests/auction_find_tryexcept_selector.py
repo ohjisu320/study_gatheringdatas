@@ -1,4 +1,4 @@
-#  상품 제목, 판매원가, 할인가, 배송방법(list방식) 크롤링하기
+#  상품 제목, 판매정가, 할인가, 배송방법(list방식) 크롤링하기
 # 각각 사용했던 태그 공유
 # git url / file: 사용한 각각 tag(element) ex) div title
 
@@ -19,18 +19,18 @@ pass
 
 # 정보 획득
 from selenium.webdriver.common.by import By
-selector_value = "div.info"
+selector_value = "div.info" # 전체
 element_bundle = browser.find_elements(by=By.CSS_SELECTOR, value=selector_value)
 for element_item in element_bundle :
-    element_title = element_item.find_element(by=By.CSS_SELECTOR, value="em > a")
+    element_title = element_item.find_element(by=By.CSS_SELECTOR, value="em > a") # 상품 제목
     title = element_title.text
     try : 
         element_old_price = element_item.find_element(by=By.CSS_SELECTOR, value="ul > li.c_price > span > strike > span")
-        old_price = element_old_price.text
+        old_price = element_old_price.text # 원래가격
         element_new_price = element_item.find_element(by=By.CSS_SELECTOR, value="ul > li.d_price > span.sale > span")
-        new_price = element_new_price.text
+        new_price = element_new_price.text # 현재가격
         element_delivery = element_item.find_element(by=By.CSS_SELECTOR, value="div.icon > div")
-        delivery = element_delivery.text        
+        delivery = element_delivery.text.split() # 배송방법   
         pass
     except :
         old_price = ""
