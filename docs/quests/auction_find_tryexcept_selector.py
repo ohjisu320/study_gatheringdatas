@@ -32,9 +32,10 @@ for element_item in element_bundle :
         old_price = ""
         pass
     finally :
-        element_new_price = element_item.find_element(by=By.CSS_SELECTOR, value="ul > li.d_price > span.sale > span")
-        new_price = element_new_price.text # 현재가격
-        element_delivery = element_item.find_element(by=By.CSS_SELECTOR, value="div.icon > div")
-        delivery = element_delivery.text.split() # 배송방법  
+        pass
+    element_new_price = element_item.find_element(by=By.CSS_SELECTOR, value="ul > li.d_price > span.sale > span")
+    new_price = element_new_price.text # 현재가격
+    element_delivery = element_item.find_element(by=By.CSS_SELECTOR, value="div.icon > div")
+    delivery = element_delivery.text.split() # 배송방법  
     print("title : {}, old price : {}, new price : {}, delivery : {}".format(title, old_price, new_price, delivery))
     pass
