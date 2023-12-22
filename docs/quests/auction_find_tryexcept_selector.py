@@ -47,7 +47,7 @@ for element_item in element_bundle :
         delivery = element_delivery.text.split() # 배송방법  
         pass
     except :
-        delivery = ""
+        delivery = [""]
         pass
 
     print("title : {}, old price : {}, new price : {}, delivery : {}".format(title, old_price, new_price, delivery))
