@@ -26,53 +26,55 @@ pass
 # - 정보 획득
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-# 한 페이지씩 이동
-element_body = browser.find_element(by=By.CSS_SELECTOR, value="body")
 
-previous_scrollHeight = 0
-list_name =[]
-list_contents = []
-list_grade = []
-
-while True : 
-    element_body.send_keys(Keys.END)
-    current_scrollHeight = browser.execute_script("return document.body.scrollHeight")
-    if previous_scrollHeight >= current_scrollHeight :
-        break
-    else :
-        previous_scrollHeight = current_scrollHeight
-    time.sleep(1)
-    list_count_comments = browser.find_elements(by=By.CSS_SELECTOR, value="ul > div.css-13j4ly.egj9y8a4")
-for count_comments in range(len(list_count_comments)) : # comment 개수 만큼 for문 돌리기
-    try : # 작성자 이름
-        find_name = browser.find_element(by=By.CSS_SELECTOR, value=" div:nth-child({}) > div.css-jqudug.egj9y8a3 > div.css-drz8qh.egj9y8a2 > a > div.css-eldyae.e10cf2lr1".format(count_comments+1)).text
-        list_name.append(find_name)
-    except :
-        list_name.append("")
-    try : # 내용
-        find_contents = browser.find_element(by=By.CSS_SELECTOR, value=" div:nth-child({}) > div.css-2occzs.egj9y8a1 > a > div > span".format(count_comments+1)).text
-        list_contents.append(find_contents)
-    except :
-        list_contents.append("")
-    try : # 별점
-        find_grade = browser.find_element(by=By.CSS_SELECTOR, value=" div:nth-child({}) > div.css-jqudug.egj9y8a3 > div.css-31ods0.egj9y8a0 > span".format(count_comments+1)).text
-        list_grade.append(find_grade)
-    except :
-        list_grade.append("")
-    
-pass
-
+def scrolling():
+    element_body = browser.find_element(by=By.CSS_SELECTOR, value="body")
+    previous_scrollHeight = 0
+    while True : 
+        element_body.send_keys(Keys.END)
+        current_scrollHeight = browser.execute_script("return document.body.scrollHeight")
+        if previous_scrollHeight >= current_scrollHeight :
+            break
+        else :
+            previous_scrollHeight = current_scrollHeight
+        time.sleep(1)
+        list_count_comments = browser.find_elements(by=By.CSS_SELECTOR, value="ul > div.css-13j4ly.egj9y8a4")
+    return list_count_comments
+list_count_comments = scrolling()
+def finds() :
+    list_name =[]
+    list_contents = []
+    list_grade = []
+    for count_comments in range(len(list_count_comments)) : # comment 개수 만큼 for문 돌리기
+        try : # 작성자 이름
+            find_name = browser.find_element(by=By.CSS_SELECTOR, value=" div:nth-child({}) > div.css-jqudug.egj9y8a3 > div.css-drz8qh.egj9y8a2 > a > div.css-eldyae.e10cf2lr1".format(count_comments+1)).text
+            list_name.append(find_name)
+        except :
+            list_name.append("")
+        try : # 내용
+            find_contents = browser.find_element(by=By.CSS_SELECTOR, value=" div:nth-child({}) > div.css-2occzs.egj9y8a1 > a > div > span".format(count_comments+1)).text
+            list_contents.append(find_contents)
+        except :
+            list_contents.append("")
+        try : # 별점
+            find_grade = browser.find_element(by=By.CSS_SELECTOR, value=" div:nth-child({}) > div.css-jqudug.egj9y8a3 > div.css-31ods0.egj9y8a0 > span".format(count_comments+1)).text
+            list_grade.append(find_grade)
+        except :
+            list_grade.append("")
+    return list_name, list_contents, list_grade   
+list_name, list_contents, list_grade = finds()
 def connect_mongo(collection_name):
     from pymongo import MongoClient
     mongoClient=MongoClient("mongodb://localhost:27017")
     database=mongoClient["gatheringdatas"]
     collection=database[collection_name]
     return collection
-
 col_watcha = connect_mongo("watcha_comments")
-for x in range(len(list_count_comments)) :
-    col_watcha.insert_one({"name":list_name[x], "grade" : list_grade[x], "contents":list_contents[x]})
-    pass
+def loops(list_name, list_grade, list_contents) :
+    for x in range(len(list_count_comments)) :
+        col_watcha.insert_one({"name":list_name[x], "grade" : list_grade[x], "contents":list_contents[x]})
+        pass
+loops(list_name, list_grade, list_contents)
 
 
 
