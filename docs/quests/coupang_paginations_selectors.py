@@ -15,7 +15,6 @@ chrome_options = Options()
 
 # User-Agent 설정
 chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36")
-
 webdriver_manager_directory = ChromeDriverManager().install()
 
 # browser(Chrome) 열기
@@ -26,12 +25,15 @@ browser = webdriver.Chrome(service=ChromeService(webdriver_manager_directory), o
 capabilities = browser.capabilities
 
 # - 주소 입력
-for x in range(1,11) :
-    url = "https://www.coupang.com/np/campaigns/348?page={}".format(x)
-    browser.get(url)
-    # - 정보 획득
-    time.sleep(3)
-    html = browser.page_source
+# chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
+
+while True :
+    for x in range(1,11) :
+        url = "https://www.coupang.com/np/campaigns/348?page={}".format(x)
+        browser.get(url)
+        # - 정보 획득
+        time.sleep(3)
+        html = browser.page_source
 
 # - 가능 여부에 대한 OK 받음
 pass
