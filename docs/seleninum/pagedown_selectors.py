@@ -3,18 +3,11 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 import time
-from selenium.webdriver.chrome.options import Options
-
-# Chrome 브라우저 옵션 생성
-chrome_options = Options()
-
-# User-Agent 설정
-chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36")
 
 webdriver_manager_directory = ChromeDriverManager().install()
 
 # browser(Chrome) 열기
-browser = webdriver.Chrome(service=ChromeService(webdriver_manager_directory), options=chrome_options)
+browser = webdriver.Chrome(service=ChromeService(webdriver_manager_directory))
 # ChromeDriver 실행
 
 # Chrome WebDriver의 capabilities 속성 사용
@@ -27,11 +20,18 @@ browser.get("https://www.w3schools.com/")
 pass
 
 # - html 파일 받음(and 확인)
-html = browser.page_source
-print(html)
+# html = browser.page_source
+# print(html)
 
 # - 정보 획득
-browser.save_screenshot('./formats.png')
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+# 한 페이지씩 이동
+element_body = browser.find_element(by=By.CSS_SELECTOR, value="body")
+element_body.send_keys(Keys.PAGE_DOWN)
+element_body.send_keys(Keys.PAGE_DOWN)
+
+element_body.send_keys(Keys.PAGE_UP)
 pass
 
 # 브라우저 종료
