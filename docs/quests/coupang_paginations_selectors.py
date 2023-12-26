@@ -1,7 +1,3 @@
-# https://emart.ssg.com/disp/category.ssg?dispCtgId=6000214033&page=1
-# https://emart.ssg.com/disp/category.ssg?dispCtgId=6000214033&page=2
-# ...
-# https://emart.ssg.com/disp/category.ssg?dispCtgId=6000214033&page=10
 
 # * 웹 크롤링 동작
 from selenium import webdriver
