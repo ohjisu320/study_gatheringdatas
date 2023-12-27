@@ -68,7 +68,7 @@ def connect_mongo(collection_name):
 
 col_watcha = connect_mongo("watcha_comments")
 for x in range(len(list_count_comments)) :
-    col_watcha.insert_one({"name":list_name[x], "grade" : list_grade[x], "contents":list_contents[x]})
+    col_watcha.insert_one({"name":list_name[x].text, "grade" : list_grade[x].text, "contents":list_contents[x].text})
     pass
 
 
