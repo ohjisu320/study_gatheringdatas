@@ -61,6 +61,7 @@ except :
     list_rate = []
     for x in range(len(list_reviews)):
         list_rate.append("")
+
 # 내용 리스팅(1) without for문 - p.cont_review_hide.text-expanded 스크래핑
 try : 
     list_contents = browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element > div > div > div.cont_text_wrap > p.cont_review_hide.text-expanded")
@@ -68,6 +69,7 @@ except :
     list_contents = []
     for x in range(len(list_reviews)):
         list_contents.append("")
+
 # 내용 리스팅(2) with for문 - click 후 div.cont_text_wrap 스크래핑
 list_contents_sec = []
 for x in range(len(list_name)) :
@@ -89,11 +91,13 @@ def connect_mongo(database_name, collection_name):
     collection=database[collection_name]
     collection.delete_many({})
     return collection
-col_11st_comments = connect_mongo("gatheringdatas", "11st_comments")
+
 # 내용 리스팅(1)
-# for x in range(len(list_name)) :
-    # col_11st_comments.insert_one({"name":list_name[x].text, "option" : list_option[x].text, "rate" : list_rate[x].text, "comments":list_contents[x].text})
+col_11st_comments = connect_mongo("gatheringdatas", "11st_comments_first")
+for x in range(len(list_name)) :
+    col_11st_comments.insert_one({"name":list_name[x].text, "option" : list_option[x].text, "rate" : list_rate[x].text, "comments":list_contents[x].text})
 # 내용 리스팅(2)
+col_11st_comments = connect_mongo("gatheringdatas", "11st_comments_second")
 for x in range(len(list_name)) :
     col_11st_comments.insert_one({"name":list_name[x].text, "option" : list_option[x].text, "rate" : list_rate[x].text, "comments":list_contents_sec[x]})
 
