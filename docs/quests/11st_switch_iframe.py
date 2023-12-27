@@ -38,49 +38,49 @@ time.sleep(3)
 # click_reviewmore = browser.find_element(by=By.CSS_SELECTOR, value="#review-list-page-area > div > button").click()
 # time.sleep(3)
 # - 정보 획득
+def listing() :
+    list_reviews=browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element")
 
-list_reviews=browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element")
-
-try : # 작성자 리스팅
-    list_name = browser.find_elements(by=By.CSS_SELECTOR, value=" ul.area_list > li.review_list_element >dl.c_product_reviewer >dt.name")
-except :
-    list_name=[]
-    for x in range(len(list_reviews)):
-        list_name.append("")
-try : # 옵션 리스팅
-    list_option = browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element > div > dl > div > dd")
-except :
-    list_option = []
-    for x in range(len(list_reviews)):
-        list_option.append("")
-try : # 별점 리스팅
-    list_rate = browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element > div > p.grade > span > em")
-except :
-    list_rate = []
-    for x in range(len(list_reviews)):
-        list_rate.append("")
-
-# 내용 리스팅(1) without for문 - p.cont_review_hide.text-expanded 스크래핑
-try : 
-    list_contents = browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element > div > div > div.cont_text_wrap > p.cont_review_hide.text-expanded")
-except :
-    list_contents = []
-    for x in range(len(list_reviews)):
-        list_contents.append("")
-
-# 내용 리스팅(2) with for문 - click 후 div.cont_text_wrap 스크래핑
-list_contents_sec = []
-for x in range(len(list_name)) :
-    try :
-        browser.find_element(by=By.CSS_SELECTOR, value="li.review_list_element > div > div > div.cont_text_wrap > p.cont_btn > button").click()
-        elements_contents_sec = browser.find_elements(by=By.CSS_SELECTOR, value="div.cont_text_wrap")
-        list
+    try : # 작성자 리스팅
+        list_name = browser.find_elements(by=By.CSS_SELECTOR, value=" ul.area_list > li.review_list_element >dl.c_product_reviewer >dt.name")
     except :
-        contents_sec = browser.find_element(by=By.CSS_SELECTOR, value="div.cont_text_wrap")
-        
-    finally :
-        list_contents_sec.append(elements_contents_sec[x].text)
+        list_name=[]
+        for x in range(len(list_reviews)):
+            list_name.append("")
+    try : # 옵션 리스팅
+        list_option = browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element > div > dl > div > dd")
+    except :
+        list_option = []
+        for x in range(len(list_reviews)):
+            list_option.append("")
+    try : # 별점 리스팅
+        list_rate = browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element > div > p.grade > span > em")
+    except :
+        list_rate = []
+        for x in range(len(list_reviews)):
+            list_rate.append("")
 
+    # 내용 리스팅(1) without for문 - p.cont_review_hide.text-expanded 스크래핑
+    try : 
+        list_contents = browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element > div > div > div.cont_text_wrap > p.cont_review_hide.text-expanded")
+    except :
+        list_contents = []
+        for x in range(len(list_reviews)):
+            list_contents.append("")
+
+    # 내용 리스팅(2) with for문 - click 후 div.cont_text_wrap 스크래핑
+    list_contents_sec = []
+    for x in range(len(list_name)) :
+        try :
+            browser.find_element(by=By.CSS_SELECTOR, value="li.review_list_element > div > div > div.cont_text_wrap > p.cont_btn > button").click()
+            elements_contents = browser.find_elements(by=By.CSS_SELECTOR, value="div.cont_text_wrap")
+            list_contents_sec.append(elements_contents[x].text)
+        except :
+            elements_contents_sec = browser.find_elements(by=By.CSS_SELECTOR, value="div.cont_text_wrap")
+            list_contents_sec.append(elements_contents_sec[x].text)
+            
+    return list_name,list_option,list_rate,list_contents,list_contents_sec
+list_name,list_option,list_rate,list_contents,list_contents_sec = listing()
 
 def connect_mongo(database_name, collection_name):
     from pymongo import MongoClient
@@ -90,14 +90,15 @@ def connect_mongo(database_name, collection_name):
     collection.delete_many({})
     return collection
 
-# 내용 리스팅(1)
-col_11st_comments = connect_mongo("gatheringdatas", "11st_comments_first")
-for x in range(len(list_name)) :
-    col_11st_comments.insert_one({"name":list_name[x].text, "option" : list_option[x].text, "rate" : list_rate[x].text, "comments":list_contents[x].text})
-# 내용 리스팅(2)
-col_11st_comments = connect_mongo("gatheringdatas", "11st_comments_second")
-for x in range(len(list_name)) :
-    col_11st_comments.insert_one({"name":list_name[x].text, "option" : list_option[x].text, "rate" : list_rate[x].text, "comments":list_contents_sec[x]})
-
+def db_upload() :
+    # 내용 리스팅(1)
+    col_11st_comments = connect_mongo("gatheringdatas", "11st_comments_first")
+    for x in range(len(list_name)) :
+        col_11st_comments.insert_one({"name":list_name[x].text, "option" : list_option[x].text, "rate" : list_rate[x].text, "comments":list_contents[x].text})
+    # 내용 리스팅(2)
+    col_11st_comments = connect_mongo("gatheringdatas", "11st_comments_second")
+    for x in range(len(list_name)) :
+        col_11st_comments.insert_one({"name":list_name[x].text, "option" : list_option[x].text, "rate" : list_rate[x].text, "comments":list_contents_sec[x]})
+db_upload()
 # 브라우저 종료
 browser.quit()
