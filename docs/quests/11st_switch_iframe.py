@@ -69,18 +69,18 @@ def listing() :
             list_contents.append("")
 
     # 내용 리스팅(2) with for문 - click 후 div.cont_text_wrap 스크래핑
-    list_contents_sec = []
-    for x in range(len(list_reviews)) : 
-        try :
-            browser.find_element(by=By.CSS_SELECTOR, value="ul.area_list > li.review_list_element > div > div > div.cont_text_wrap > p.cont_btn > button").click()
-            elements_contents = browser.find_elements(by=By.CSS_SELECTOR, value="ul.area_list > li.review_list_element > div > div > div.cont_text_wrap")
-            list_contents_sec.append(elements_contents[x].text)
+    list_contents_sec = [] # list 생성
+    for x in range(len(list_reviews)) : # 리뷰 수 만큼 반복
+        try : 
+            browser.find_element(by=By.CSS_SELECTOR, value="ul.area_list > li.review_list_element > div > div > div.cont_text_wrap > p.cont_btn > button").click() # 클릭
+            elements_contents = browser.find_elements(by=By.CSS_SELECTOR, value="ul.area_list > li.review_list_element > div > div > div.cont_text_wrap") # elements 찾기
+            list_contents_sec.append(elements_contents[x]) # text만 뽑아서 list에 append
         except :
-            elements_contents_sec = browser.find_elements(by=By.CSS_SELECTOR, value="ul.area_list > li.review_list_element > div > div > div.cont_text_wrap")
-            list_contents_sec.append(elements_contents_sec[x].text)
+            elements_contents_sec = browser.find_elements(by=By.CSS_SELECTOR, value="ul.area_list > li.review_list_element > div > div > div.cont_text_wrap") # elements 찾기
+            list_contents_sec.append(elements_contents_sec[x]) # text만 뽑아서 list에 append
             
-    return list_name,list_option,list_rate,list_contents,list_contents_sec
-list_name,list_option,list_rate,list_contents,list_contents_sec = listing()
+    return list_reviews,list_name,list_option,list_rate,list_contents,list_contents_sec # list_reviews,list_name,list_option,list_rate,list_contents,list_contents_sec 모두 return
+list_reviews,list_name,list_option,list_rate,list_contents,list_contents_sec = listing() # 변수에 담아 매칭
 
 def connect_mongo(database_name, collection_name): # mongodb connect
     from pymongo import MongoClient
@@ -92,12 +92,12 @@ def connect_mongo(database_name, collection_name): # mongodb connect
 
 def db_upload() :
     # db업로드 - 내용 리스팅(1)
-    col_11st_comments = connect_mongo("gatheringdatas", "11st_comments_first")
-    for x in range(len(list_name)) :
+    col_11st_comments = connect_mongo("gatheringdatas", "11st_comments_first") # db connect
+    for x in range(len(list_reviews)) : # 리뷰 수 만큼 반복해서 한 행씩 db에 upload
         col_11st_comments.insert_one({"name":list_name[x].text, "option" : list_option[x].text, "rate" : list_rate[x].text, "comments":list_contents[x].text})
     # db업로드 - 내용 리스팅(2)
     col_11st_comments = connect_mongo("gatheringdatas", "11st_comments_second")
-    for x in range(len(list_name)) :
+    for x in range(len(list_reviews)) : # 리뷰 수 만큼 반복해서 한 행씩 db에 upload
         col_11st_comments.insert_one({"name":list_name[x].text, "option" : list_option[x].text, "rate" : list_rate[x].text, "comments":list_contents_sec[x]})
 db_upload()
 # 브라우저 종료
