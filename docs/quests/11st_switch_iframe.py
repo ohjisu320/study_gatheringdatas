@@ -23,17 +23,15 @@ capabilities = browser.capabilities
 # - 주소 https://www.w3schools.com/ 입력
 browser.get("https://www.11st.co.kr/products/pa/4940434685?inpu=&trTypeCd=22&trCtgrNo=895019")
 
-# - 가능 여부에 대한 OK 받음
-pass
 
-# click review
 from selenium.webdriver.common.by import By
-click_revies = browser.find_element(by=By.CSS_SELECTOR, value="#tabMenuDetail2").click()
-
-# - switch
-browser.switch_to.frame("ifrmReview")
-
-list_reviews = browser.find_elements(by=By.CSS_SELECTOR, value="dt.name")
+def before() : # 전처리과정
+    # click review
+    click_revies = browser.find_element(by=By.CSS_SELECTOR, value="#tabMenuDetail2").click()
+    # - switch
+    browser.switch_to.frame("ifrmReview")
+    time.sleep(3)
+before()
 
 time.sleep(3)
 
@@ -44,7 +42,7 @@ time.sleep(3)
 list_reviews=browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element")
 
 try : # 작성자 리스팅
-    list_name = browser.find_elements(by=By.CSS_SELECTOR, value="dt.name")
+    list_name = browser.find_elements(by=By.CSS_SELECTOR, value=" ul.area_list > li.review_list_element >dl.c_product_reviewer >dt.name")
 except :
     list_name=[]
     for x in range(len(list_reviews)):
