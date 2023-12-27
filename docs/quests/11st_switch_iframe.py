@@ -39,7 +39,7 @@ time.sleep(3)
 # time.sleep(3)
 # - 정보 획득
 def listing() :
-    list_reviews=browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element")
+    list_reviews=browser.find_elements(by=By.CSS_SELECTOR, value="div.cont_text_wrap")
 
     try : # 작성자 리스팅
         list_name = browser.find_elements(by=By.CSS_SELECTOR, value=" ul.area_list > li.review_list_element >dl.c_product_reviewer >dt.name")
@@ -48,13 +48,13 @@ def listing() :
         for x in range(len(list_reviews)):
             list_name.append("")
     try : # 옵션 리스팅
-        list_option = browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element > div > dl > div > dd")
+        list_option = browser.find_elements(by=By.CSS_SELECTOR, value="ul.area_list > li.review_list_element > div > dl > div > dd")
     except :
         list_option = []
         for x in range(len(list_reviews)):
             list_option.append("")
     try : # 별점 리스팅
-        list_rate = browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element > div > p.grade > span > em")
+        list_rate = browser.find_elements(by=By.CSS_SELECTOR, value="ul.area_list > li.review_list_element > div > p.grade > span > em")
     except :
         list_rate = []
         for x in range(len(list_reviews)):
@@ -62,7 +62,7 @@ def listing() :
 
     # 내용 리스팅(1) without for문 - p.cont_review_hide.text-expanded 스크래핑
     try : 
-        list_contents = browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element > div > div > div.cont_text_wrap > p.cont_review_hide.text-expanded")
+        list_contents = browser.find_elements(by=By.CSS_SELECTOR, value="ul.area_list > li.review_list_element > div > div > div.cont_text_wrap > p.cont_review_hide.text-expanded")
     except :
         list_contents = []
         for x in range(len(list_reviews)):
@@ -72,11 +72,11 @@ def listing() :
     list_contents_sec = []
     for x in range(len(list_name)) :
         try :
-            browser.find_element(by=By.CSS_SELECTOR, value="li.review_list_element > div > div > div.cont_text_wrap > p.cont_btn > button").click()
-            elements_contents = browser.find_elements(by=By.CSS_SELECTOR, value="div.cont_text_wrap")
+            browser.find_element(by=By.CSS_SELECTOR, value="ul.area_list > li.review_list_element > div > div > div.cont_text_wrap > p.cont_btn > button").click()
+            elements_contents = browser.find_elements(by=By.CSS_SELECTOR, value="ul.area_list > li.review_list_element > div > div > div.cont_text_wrap")
             list_contents_sec.append(elements_contents[x].text)
         except :
-            elements_contents_sec = browser.find_elements(by=By.CSS_SELECTOR, value="div.cont_text_wrap")
+            elements_contents_sec = browser.find_elements(by=By.CSS_SELECTOR, value="ul.area_list > li.review_list_element > div > div > div.cont_text_wrap")
             list_contents_sec.append(elements_contents_sec[x].text)
             
     return list_name,list_option,list_rate,list_contents,list_contents_sec
