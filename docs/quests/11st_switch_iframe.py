@@ -91,11 +91,11 @@ def connect_mongo(database_name, collection_name):
     return collection
 
 def db_upload() :
-    # 내용 리스팅(1)
+    # db업로드 - 내용 리스팅(1)
     col_11st_comments = connect_mongo("gatheringdatas", "11st_comments_first")
     for x in range(len(list_name)) :
         col_11st_comments.insert_one({"name":list_name[x].text, "option" : list_option[x].text, "rate" : list_rate[x].text, "comments":list_contents[x].text})
-    # 내용 리스팅(2)
+    # db업로드 - 내용 리스팅(2)
     col_11st_comments = connect_mongo("gatheringdatas", "11st_comments_second")
     for x in range(len(list_name)) :
         col_11st_comments.insert_one({"name":list_name[x].text, "option" : list_option[x].text, "rate" : list_rate[x].text, "comments":list_contents_sec[x]})
