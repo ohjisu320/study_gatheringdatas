@@ -41,7 +41,7 @@ time.sleep(3)
 # time.sleep(3)
 # - 정보 획득
 
-
+list_contents = []
 try : 
     list_name = browser.find_elements(by=By.CSS_SELECTOR, value="dt.name")
 except :
@@ -57,9 +57,11 @@ except :
     list_rate = []
 try : 
     click_more = browser.find_element(by=By.CSS_SELECTOR, value="li.review_list_element > div > div > div.cont_text_wrap > p.cont_btn.review-expand > button.c_product_btn.c_product_btn_more6.review-expand-open-text").click()
-    list_contents = browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element > div > div > div.cont_text_wrap > p")
+    contents = browser.find_element(by=By.CSS_SELECTOR, value="li.review_list_element > div > div > div.cont_text_wrap > p")
+    list_contents.append(contents)
 except :
-    list_contents = browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element > div > div > div.cont_text_wrap > p")
+    contents = browser.find_element(by=By.CSS_SELECTOR, value="li.review_list_element > div > div > div.cont_text_wrap > p")
+    list_contents.append(contents)
 pass
 
 def connect_mongo(database_name, collection_name):
