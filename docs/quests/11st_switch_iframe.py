@@ -41,24 +41,32 @@ time.sleep(3)
 # time.sleep(3)
 # - 정보 획득
 
+list_reviews=browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element")
 
 try : 
     list_name = browser.find_elements(by=By.CSS_SELECTOR, value="dt.name")
 except :
-    list_name = []
-
+    list_name=[]
+    for x in range(len(list_reviews)):
+        list_name.append("")
 try : 
     list_option = browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element > div > dl > div > dd")
 except :
     list_option = []
+    for x in range(len(list_reviews)):
+        list_option.append("")
 try : 
     list_rate = browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element > div > p.grade > span > em")
 except :
     list_rate = []
+    for x in range(len(list_reviews)):
+        list_rate.append("")
 try : 
-    list_contents_sec = browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element > div > div > div.cont_text_wrap > p.cont_review_hide.text-expanded")
+    list_contents = browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element > div > div > div.cont_text_wrap > p.cont_review_hide.text-expanded")
 except :
-    list_contents_sec = []
+    list_contents = []
+    for x in range(len(list_reviews)):
+        list_contents.append("")
 def connect_mongo(database_name, collection_name):
     from pymongo import MongoClient
     mongoClient=MongoClient("mongodb://localhost:27017")
