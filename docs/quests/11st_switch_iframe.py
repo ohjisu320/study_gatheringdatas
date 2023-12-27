@@ -67,6 +67,7 @@ except :
     list_contents = []
     for x in range(len(list_reviews)):
         list_contents.append("")
+
 def connect_mongo(database_name, collection_name):
     from pymongo import MongoClient
     mongoClient=MongoClient("mongodb://localhost:27017")
@@ -76,6 +77,6 @@ def connect_mongo(database_name, collection_name):
     return collection
 col_11st_comments = connect_mongo("gatheringdatas", "11st_comments")
 for x in range(len(list_name)) :
-    col_11st_comments.insert_one({"name":list_name[x].text, "option" : list_option[x].text, "rate" : list_rate[x].text, "comments":list_contents_sec[x].text})
+    col_11st_comments.insert_one({"name":list_name[x].text, "option" : list_option[x].text, "rate" : list_rate[x].text, "comments":list_contents[x].text})
 # 브라우저 종료
 browser.quit()
