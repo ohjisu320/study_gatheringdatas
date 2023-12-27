@@ -41,7 +41,7 @@ time.sleep(3)
 # time.sleep(3)
 # - 정보 획득
 
-list_contents = []
+
 try : 
     list_name = browser.find_elements(by=By.CSS_SELECTOR, value="dt.name")
 except :
@@ -56,22 +56,18 @@ try :
 except :
     list_rate = []
 try : 
-    click_more = browser.find_element(by=By.CSS_SELECTOR, value="li.review_list_element > div > div > div.cont_text_wrap > p.cont_btn.review-expand > button.c_product_btn.c_product_btn_more6.review-expand-open-text").click()
-    contents = browser.find_element(by=By.CSS_SELECTOR, value="li.review_list_element > div > div > div.cont_text_wrap > p")
-    list_contents.append(contents)
+    list_contents_sec = browser.find_elements(by=By.CSS_SELECTOR, value="li.review_list_element > div > div > div.cont_text_wrap > p.cont_review_hide.text-expanded")
 except :
-    contents = browser.find_element(by=By.CSS_SELECTOR, value="li.review_list_element > div > div > div.cont_text_wrap > p")
-    list_contents.append(contents)
-pass
-
+    list_contents_sec = []
 def connect_mongo(database_name, collection_name):
     from pymongo import MongoClient
     mongoClient=MongoClient("mongodb://localhost:27017")
     database=mongoClient[database_name]
     collection=database[collection_name]
+    collection.delete_many({})
     return collection
 col_11st_comments = connect_mongo("gatheringdatas", "11st_comments")
 for x in range(len(list_name)) :
-    col_11st_comments.insert_one({"name":list_name[x].text, "option" : list_option[x].text, "rate" : list_rate[x].text, "comments":list_contents[x].text})
+    col_11st_comments.insert_one({"name":list_name[x].text, "option" : list_option[x].text, "rate" : list_rate[x].text, "comments":list_contents_sec[x].text})
 # 브라우저 종료
 browser.quit()
