@@ -70,7 +70,7 @@ def listing() :
 
     # 내용 리스팅(2) with for문 - click 후 div.cont_text_wrap 스크래핑
     list_contents_sec = []
-    for x in range(len(list_name)) :
+    for x in range(len(list_reviews)) : 
         try :
             browser.find_element(by=By.CSS_SELECTOR, value="ul.area_list > li.review_list_element > div > div > div.cont_text_wrap > p.cont_btn > button").click()
             elements_contents = browser.find_elements(by=By.CSS_SELECTOR, value="ul.area_list > li.review_list_element > div > div > div.cont_text_wrap")
@@ -82,7 +82,7 @@ def listing() :
     return list_name,list_option,list_rate,list_contents,list_contents_sec
 list_name,list_option,list_rate,list_contents,list_contents_sec = listing()
 
-def connect_mongo(database_name, collection_name):
+def connect_mongo(database_name, collection_name): # mongodb connect
     from pymongo import MongoClient
     mongoClient=MongoClient("mongodb://localhost:27017")
     database=mongoClient[database_name]
