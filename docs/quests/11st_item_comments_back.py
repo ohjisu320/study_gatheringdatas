@@ -33,14 +33,14 @@ def click_item(i) : # 전처리과정 - click item
     time.sleep(1)
     return item_list
 
-def click_review() : # 전처리과정 - click review
+def click_review() :    # 전처리과정 - click review
     # click review
     browser.find_element(by=By.CSS_SELECTOR, value="#tabMenuDetail2").click()
     # - switch
     browser.switch_to.frame("ifrmReview")
     time.sleep(1)
 
-def item_finding() :
+def item_finding() :    # item 정보 찾기
     pass
     item_name = browser.find_element(by=By.CSS_SELECTOR, value="h1.title").text
     try : 
@@ -55,7 +55,7 @@ def item_finding() :
     item_contents = browser.find_element(by=By.CSS_SELECTOR, value="#tabpanelDetail1 > table > tbody").text
     col_11st_items.insert_one({"명칭":item_name, "원가" : item_reqular_price, "판매가":item_now_price, "image link" : item_image, "상품상세": item_contents})
   
-def comments_listing() :
+def comments_listing() :    # comment 정보 찾기
     list_reviews=browser.find_elements(by=By.CSS_SELECTOR, value="div.cont_text_wrap")
     try : # 작성자 리스팅
         list_name = browser.find_elements(by=By.CSS_SELECTOR, value=" ul.area_list > li.review_list_element >dl.c_product_reviewer >dt.name")
@@ -108,16 +108,16 @@ def before() :
 
 # 브라우저 종료
 
-loop_sign = int(input())
+loop_sign = int(input("select items(num) : "))    # 몇 개의 item을 스크래핑 할 지 input 받기
 
-col_11st_items,col_11st_comments = before()
+col_11st_items,col_11st_comments = before() # dbconnect - preprocess
 
 for i in range(loop_sign) :
-    click_item(i)
-    item_finding()
-    click_review()
-    comments_listing()
-    browser.back()
-    time.sleep(1)
+    click_item(i)   # click best item - preprocess
+    item_finding()  # finding item's info 
+    click_review()  # click reviews - preprocess
+    comments_listing()  # finding reviews' info
+    browser.back()  # back
+    time.sleep(1)   # stop for 1s 
 
 browser.quit()
