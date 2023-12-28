@@ -21,16 +21,16 @@ browser = webdriver.Chrome(service=ChromeService(webdriver_manager_directory), o
 capabilities = browser.capabilities
 
 # - 주소 입력
-browser.get("https://deal.11st.co.kr/browsing/DealAction.tmall?method=getShockingDealMain")
+browser.get("https://www.11st.co.kr/browsing/BestSeller.tmall?method=getBestSellerMain&xfrom=main^gnb")
 
 
 from selenium.webdriver.common.by import By
 
 def click_item(i) : # 전처리과정 - click item
     # click item
-    item_list = browser.find_elements(by=By.CSS_SELECTOR, value="div.c-card-item > a")
+    item_list = browser.find_elements(by=By.CSS_SELECTOR, value="div.box_pd >a")
     item_list[i].click()
-    time.sleep(3)
+    time.sleep(1)
     return item_list
 
 def click_review() : # 전처리과정 - click review
@@ -38,7 +38,7 @@ def click_review() : # 전처리과정 - click review
     browser.find_element(by=By.CSS_SELECTOR, value="#tabMenuDetail2").click()
     # - switch
     browser.switch_to.frame("ifrmReview")
-    time.sleep(3)
+    time.sleep(1)
 
 def item_finding() :
     pass
