@@ -26,21 +26,21 @@ browser.get("https://www.11st.co.kr/browsing/BestSeller.tmall?method=getBestSell
 
 from selenium.webdriver.common.by import By
 
-def click_item(i) : # 전처리과정 - click item
+def click_item(i) : # click best item - preprocess
     # click item
     item_list = browser.find_elements(by=By.CSS_SELECTOR, value="div.box_pd.ranking_pd >a")
     item_list[i].click()
     time.sleep(1)
     return item_list
 
-def click_review() :    # 전처리과정 - click review
+def click_review() :    # click reviews - preprocess
     # click review
     browser.find_element(by=By.CSS_SELECTOR, value="#tabMenuDetail2").click()
     # - switch
     browser.switch_to.frame("ifrmReview")
     time.sleep(1)
 
-def item_finding() :    # item 정보 찾기
+def item_finding() :    # finding item's info
     pass
     item_name = browser.find_element(by=By.CSS_SELECTOR, value="h1.title").text
     try : 
@@ -55,7 +55,7 @@ def item_finding() :    # item 정보 찾기
     item_contents = browser.find_element(by=By.CSS_SELECTOR, value="#tabpanelDetail1 > table > tbody").text
     col_11st_items.insert_one({"명칭":item_name, "원가" : item_reqular_price, "판매가":item_now_price, "image link" : item_image, "상품상세": item_contents})
   
-def comments_listing() :    # comment 정보 찾기
+def comments_listing() :    # finding reviews' info
     list_reviews=browser.find_elements(by=By.CSS_SELECTOR, value="div.cont_text_wrap")
     try : # 작성자 리스팅
         list_name = browser.find_elements(by=By.CSS_SELECTOR, value=" ul.area_list > li.review_list_element >dl.c_product_reviewer >dt.name")
@@ -99,7 +99,7 @@ def connect_mongo(database_name, collection_name): # mongodb connect
     collection=database[collection_name]
     return collection
 
-def before() :
+def before() :  # dbconnect - preprocess
     col_11st_items = connect_mongo("gatheringdatas", "11st_item")
     col_11st_items.delete_many({})
     col_11st_comments = connect_mongo("gatheringdatas", "11st_item_comments") # db connect
