@@ -4,27 +4,29 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 from selenium.webdriver.chrome.options import Options
-
-# Chrome 브라우저 옵션 생성
-chrome_options = Options()
-
-# User-Agent 설정
-chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36")
-
-webdriver_manager_directory = ChromeDriverManager().install()
-
-# browser(Chrome) 열기
-browser = webdriver.Chrome(service=ChromeService(webdriver_manager_directory), options=chrome_options)
-# ChromeDriver 실행
-
-# Chrome WebDriver의 capabilities 속성 사용
-capabilities = browser.capabilities
-
-# - 주소 입력
-browser.get("https://www.11st.co.kr/browsing/BestSeller.tmall?method=getBestSellerMain&xfrom=main^gnb")
-
-
 from selenium.webdriver.common.by import By
+
+
+def browsing() :
+    # Chrome 브라우저 옵션 생성
+    chrome_options = Options()
+
+    # User-Agent 설정
+    chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36")
+
+    webdriver_manager_directory = ChromeDriverManager().install()
+
+    # browser(Chrome) 열기
+    browser = webdriver.Chrome(service=ChromeService(webdriver_manager_directory), options=chrome_options)
+    # ChromeDriver 실행
+
+    # Chrome WebDriver의 capabilities 속성 사용
+    capabilities = browser.capabilities
+
+    # - 주소 입력
+    browser.get("https://www.11st.co.kr/browsing/BestSeller.tmall?method=getBestSellerMain&xfrom=main^gnb")
+
+    return browser
 
 def click_item(i) : # click best item - preprocess
     # click item
@@ -109,7 +111,7 @@ def before() :  # dbconnect - preprocess
 # 브라우저 종료
 
 loop_sign = int(input("select items(num) : "))    # 몇 개의 item을 스크래핑 할 지 input 받기
-
+browser = browsing()
 col_11st_items,col_11st_comments = before() # dbconnect - preprocess
 
 for i in range(loop_sign) :
