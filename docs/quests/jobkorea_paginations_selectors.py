@@ -43,6 +43,7 @@ time.sleep(5)
 # for page_num in range(len(page_list)) : 
 #     page_list[page_num+1].click()
 #     time.sleep(3)
+
 for page_num in [] :
     next = browser.find_element(by=By.CSS_SELECTOR, value="#dvGIPaging > div > p:nth-child(3) > a")
     click_next=next.click()
