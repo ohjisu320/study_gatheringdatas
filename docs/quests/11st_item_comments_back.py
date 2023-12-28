@@ -28,7 +28,7 @@ from selenium.webdriver.common.by import By
 
 def click_item(i) : # 전처리과정 - click item
     # click item
-    item_list = browser.find_elements(by=By.CSS_SELECTOR, value="div.box_pd >a")
+    item_list = browser.find_elements(by=By.CSS_SELECTOR, value="div.box_pd.ranking_pd >a")
     item_list[i].click()
     time.sleep(1)
     return item_list
@@ -63,11 +63,12 @@ def comments_listing() :
         list_name=[]
         for x in range(len(list_reviews)):
             list_name.append("")
-    try : # 옵션 리스팅
-        list_option = browser.find_elements(by=By.CSS_SELECTOR, value="ul.area_list > li.review_list_element > div > dl > div > dd")
-    except :
-        list_option = []
-        for x in range(len(list_reviews)):
+    list_option = [] # 옵션 리스팅
+    for x in range(len(list_reviews)) :
+        try : 
+            option = browser.find_element(by=By.CSS_SELECTOR, value="ul.area_list > li.review_list_element > div > dl > div > dd")
+            list_option.append(option.text)
+        except :
             list_option.append("")
     try : # 별점 리스팅
         list_rate = browser.find_elements(by=By.CSS_SELECTOR, value="ul.area_list > li.review_list_element > div > p.grade > span > em")
@@ -89,7 +90,7 @@ def comments_listing() :
     col_11st_items.find({},{"_id":1})
     item_id = col_11st_items.find({},{"_id":1})[i]["_id"]
     for x in range(len(list_reviews)) : # 리뷰 수 만큼 반복해서 한 행씩 db에 upload
-        col_11st_comments.insert_one({"item_id":item_id,"name":list_name[x].text, "option" : list_option[x].text, "rate" : list_rate[x].text, "comments":list_contents[x]})        
+        col_11st_comments.insert_one({"item_id":item_id,"name":list_name[x].text, "option" : list_option[x], "rate" : list_rate[x].text, "comments":list_contents[x]})        
    
 def connect_mongo(database_name, collection_name): # mongodb connect
     from pymongo import MongoClient
