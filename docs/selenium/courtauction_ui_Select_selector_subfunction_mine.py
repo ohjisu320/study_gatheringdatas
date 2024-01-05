@@ -16,23 +16,21 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select # refer official https://www.selenium.dev/selenium/docs/api/py/webdriver_support/selenium.webdriver.support.select.html#module-selenium.webdriver.support.select
 # Select(driver.find_element(By.TAG_NAME, “select”)).select_by_index(2)
 
-def go_and_define_select(x) :
+def go_and_define_select(browser, x) :
     browser.switch_to.frame('indexFrame')
     browser.find_element(by=By.CSS_SELECTOR, value="#menu > h1:nth-child(5)").click()
     # 셀렉트 지정
-    selector_element = "#idJiwonNm"
-    element_court = browser.find_element(by=By.CSS_SELECTOR, value=selector_element)
+    element_court = browser.find_element(by=By.CSS_SELECTOR, value="#idJiwonNm")
     list_court_name = browser.find_elements(by=By.CSS_SELECTOR, value="#idJiwonNm > option")
     list_court_name_sec =[]
     for x in range(len(list_court_name)) :
         list_court_name_sec.append(list_court_name[x].text)
-    pass
+    # 다시 셀렉트 클릭할 때, 오류발생
     Select(element_court).select_by_index(x)
-    return list_court_name_sec
-
-
-def click_to_search():
     browser.find_element(by=By.CSS_SELECTOR, value="#contents > form > div.tbl_btn > a:nth-child(1)").click()
+    return len(element_court), list_court_name_sec
+
+    
 
 def finding_and_upload():
     list_numbers = []
@@ -75,7 +73,7 @@ def connect_mongo(col_name) :
     collection.delete_many({})
     return collection
 
-if __name__ == "__main__" :
+def get_browser(uri) :
     # Chrome 브라우저 옵션 생성
     chrome_options = Options()
 
@@ -92,16 +90,18 @@ if __name__ == "__main__" :
     capabilities = browser.capabilities
 
     # - 주소 입력
-    browser.get("https://www.courtauction.go.kr/")
-    courtauctions=connect_mongo('courtauctions')
-    for x in range(3) : 
-        list_court_name_sec = go_and_define_select(x)
-        click_to_search()
-        pass
-        for y in range(1,10):
-            finding_and_upload()
-            paging(y)
-        back_program()
+    browser.get(uri)
+    return browser
 
-    # 브라우저 종료
-    browser.quit()
+browser = get_browser("https://www.courtauction.go.kr/") # call
+
+
+
+courtauctions=connect_mongo('courtauctions')
+for x in range(3) : 
+    element_court, list_court_name_sec = go_and_define_select("#idJiwonNm", x)
+    pass
+    for y in range(1,10):
+        finding_and_upload()
+        paging(y)
+    back_program()

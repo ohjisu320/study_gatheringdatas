@@ -33,7 +33,7 @@ except :
     pass
 try :
     password = browser.find_element(by=By.CSS_SELECTOR, value="#user_password")
-    password.send_keys("198976zz")
+    password.send_keys("********")
     pass
 except :
     password = browser.find_element(by=By.CSS_SELECTOR, value="#user_password")

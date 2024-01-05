@@ -52,9 +52,11 @@ while True:
         previous_scrollHeight = current_scrollHeight
     time.sleep(1)
     pass
+time.sleep(1)
 # 스크롤 후 댓글 개수 확인 : div.RHo1pe
 selector_element = "div.RHo1pe"
 elements_comment = browser.find_elements(by=By.CSS_SELECTOR,value=selector_element)
 print("count comment after done scroll : {}".format(len(elements_comment)))
+time.sleep(1)
 # 브라우저 종료
 browser.quit()
