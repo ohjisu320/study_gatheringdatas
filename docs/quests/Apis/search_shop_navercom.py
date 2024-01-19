@@ -36,14 +36,17 @@ shop_info = {
     "total": contents["total"],
     "start": contents["start"],
     "display": contents["display"]}
+# pop() 사용하면 items만 삭제 가능
+# shop_info =contents.pop('items')
 collection_shop_info.insert_one(shop_info)
-list_shop_info = collection_shop_info.find({})
-shop_info_id = list_shop_info[0]['_id']
 
-
-collection_shop_list = dbconnect('shop_list')
-for x in range(len(contents["items"])) : 
-    contents["items"][x]["shop_info_id"]=shop_info_id
+list_shop_info = list(collection_shop_info.find({}))
+list_shop_info_id = []
+for x in range(len(list_shop_info)) :
+    list_shop_info_id.append(list_shop_info[x]['_id'])
+    collection_shop_list = dbconnect('shop_list')
+    for y in range(len(contents["items"])) : 
+        contents["items"][y]["shop_info_id"]=list_shop_info_id[x]
 
 collection_shop_list.insert_many(contents["items"]) 
 pass
