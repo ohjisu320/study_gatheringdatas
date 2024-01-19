@@ -26,7 +26,7 @@ from pymongo import MongoClient
 def dbconnect(collection_name) :
     # MongoDB 클라이언트 설정
     mongoClient = MongoClient("mongodb://localhost:27017")
-    database = mongoClient["data_go_kr"]
+    database = mongoClient["request"]
     collection = database[collection_name]
     return collection
 
