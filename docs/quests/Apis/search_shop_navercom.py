@@ -36,8 +36,7 @@ shop_info = {
     "total": contents["total"],
     "start": contents["start"],
     "display": contents["display"]}
-# pop() 사용하면 items만 삭제 가능
-# shop_info =contents.pop('items')
+
 collection_shop_info.insert_one(shop_info)
 
 list_shop_info = list(collection_shop_info.find({}))
