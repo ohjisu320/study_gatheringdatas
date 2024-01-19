@@ -23,7 +23,7 @@ def dbconnect(collection_name) :
     collection = database[collection_name]
     return collection
 pass
-collection = dbconnect('getDataSetOpnStdBidPblancInfo')
+collection = dbconnect('PubDataOpnStdService')
 collection.insert_many(contents['response']['body']['items'])
 pass
 
