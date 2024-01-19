@@ -43,23 +43,9 @@ shop_info_id = list_shop_info[0]['_id']
 
 collection_shop_list = dbconnect('shop_list')
 for x in range(len(contents["items"])) : 
-    collection_shop_list.insert_one({"shop_info_id" : shop_info_id,
-                                    "title" : contents["items"][x]["title"],
-                                     "link":contents["items"][x]["link"],
-                                    "image": contents["items"][x]["image"],
-                                    "lprice": contents["items"][x]["lprice"],
-                                    "hprice": contents["items"][x]["hprice"],
-                                    "mallName":contents["items"][x]["mallName"],
-                                    "productId": contents["items"][x]["productId"],
-                                    "productType": contents["items"][x]["productType"],
-                                    "brand": contents["items"][x]["brand"],
-                                    "maker": contents["items"][x]["maker"],
-                                    "category1": contents["items"][x]["category1"],
-                                    "category2": contents["items"][x]["category2"],
-                                    "category3": contents["items"][x]["category3"],
-                                    "category4": contents["items"][x]["category4"],
-                                    })
+    contents["items"][x]["shop_info_id"]=shop_info_id
 
+collection_shop_list.insert_many(contents["items"]) 
 pass
 
 
