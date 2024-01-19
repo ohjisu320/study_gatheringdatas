@@ -32,10 +32,10 @@ def dbconnect(collection_name) :
 
 collection_shop_info = dbconnect('shop_info')
 shop_info = {
-    "lastBuildDate": "Fri, 19 Jan 2024 15:42:18 +0900",
-    "total": 180074,
-    "start": 1,
-    "display": 10,}
+    "lastBuildDate": contents["lastBuildDate"],
+    "total": contents["total"],
+    "start": contents["start"],
+    "display": contents["display"],}
 collection_shop_info.insert_one(shop_info)
 list_shop_info = collection_shop_info.find({})
 shop_info_id = list_shop_info[0]['_id']
