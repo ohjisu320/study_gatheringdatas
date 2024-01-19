@@ -1,3 +1,4 @@
+# from : https://www.data.go.kr/iim/api/selectAPIAcountView.do
 import requests
 
 url = 'http://apis.data.go.kr/1230000/PubDataOpnStdService/getDataSetOpnStdBidPblancInfo'

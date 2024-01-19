@@ -1,3 +1,5 @@
+# from : https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15082033
+
 import requests
 
 url = 'http://apis.data.go.kr/1360000/TourStnInfoService1/getCityTourClmIdx1'
